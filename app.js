@@ -2,6 +2,8 @@ var express = require('express');
 var app = express();
 var ejs = require('ejs');
 var mongo = require('mongodb');
+var crypto = require('crypto');
+
 app.listen(2000);
 app.engine('html', ejs.renderFile);
 
@@ -37,12 +39,21 @@ function registerNewUser(req, res) {
 			u[f[0]] = f[1];
 		}
 
+		u.password = crypto.createHmac('sha256', u.password).digest('hex');
+
 		mongo.MongoClient.connect('mongodb://127.0.0.1/start',
 			(error, db) => {
-				db.collection('user').insert(u);
+				db.collection('user').find({email: u.email}).toArray(
+					(error, data) => {
+						if (data.length == 0) {
+							db.collection('user').insert(u);
+							res.redirect("/login");
+						} else {
+							res.redirect("/register?message=Duplicated Email");
+						}
+					}
+				)
 			}
 		)
-
-		res.redirect("/");
 	});
 }
