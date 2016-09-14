@@ -20,8 +20,11 @@ function registerNewUser(req, res) {
 	req.on("data", chunk => data += chunk )
 	req.on("end", () => {
 		data = decodeURIComponent(data);
-		data = data.replace('+', ' ');
-		console.log(data);
+		data = data.replace(/\+/g, ' ');
+		var a = data.split('&');
+		for (var i = 0; i < a.length; i++) {
+			
+		}
 		res.redirect("/");
 	});
 }
