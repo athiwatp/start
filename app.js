@@ -18,6 +18,7 @@ app.post('/login', loginUser);
 app.get('/profile', showProfile);
 app.get('/logout', logoutUser);
 app.use( express.static('public') );
+app.use( showError );
 
 // install packages: npm install express ejs mongodb
 // run:              node app
@@ -119,4 +120,8 @@ function showProfile(req, res) {
 function logoutUser(req, res) {
 	delete granted[req.session];
 	res.render("logout.html");
+}
+
+function showError(req, res, next) {
+	res.status(404).render('error.html');
 }
