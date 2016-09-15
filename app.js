@@ -15,6 +15,8 @@ app.get('/register', function(req, res) {
 
 app.post('/register', registerNewUser);
 
+app.use( express.static('public') );
+
 // install packages: npm install express ejs mongodb
 // run:              node app
 
