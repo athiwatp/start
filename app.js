@@ -39,8 +39,10 @@ function session(req, res, next) {
 	}
 	if (req.session == null) {
 		req.session = parseInt(Math.random() * 1000000) + 
+				"-" + parseInt(Math.random() * 1000000) + 
+				"-" + parseInt(Math.random() * 1000000) + 
 				"-" + parseInt(Math.random() * 1000000);
-		res.set({"Set-Cookie": req.session});
+		res.set("Set-Cookie", "session=" + req.session);
 	}
 	next();
 }
