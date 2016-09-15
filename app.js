@@ -3,6 +3,7 @@ var app = express();
 var ejs = require('ejs');
 var mongo = require('mongodb');
 var crypto = require('crypto');
+var granted = [ ];
 
 app.listen(2000);
 app.engine('html', ejs.renderFile);
@@ -14,6 +15,7 @@ app.get('/register', function(req, res) {
 app.post('/register', registerNewUser);
 app.get('/login', (req, res) => res.render('login.html'));
 app.post('/login', loginUser);
+app.get('/profile', showProfile);
 app.use( express.static('public') );
 
 // install packages: npm install express ejs mongodb
@@ -104,9 +106,17 @@ function loginUser(req, res) {
 				if (data.length == 0) {
 					res.redirect("/login?message=Invalid Password");
 				} else {
-
+					granted[req.session] = data[0];
 				}
 			});
 		});
 	});
+}
+
+function showProfile(req, res) {
+	if (granted[req.session] == null) {
+		res.redirect("/login");
+	} else {
+		res.render("profile.html");
+	}
 }
