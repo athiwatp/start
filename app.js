@@ -12,6 +12,7 @@ app.get('/register', function(req, res) {
 	res.render('register.html');
 });
 app.post('/register', registerNewUser);
+app.get('/login', (req, res) => res.render('login.html'));
 app.use( express.static('public') );
 
 // install packages: npm install express ejs mongodb
