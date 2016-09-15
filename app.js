@@ -17,6 +17,9 @@ app.get('/login', (req, res) => res.render('login.html'));
 app.post('/login', loginUser);
 app.get('/profile', showProfile);
 app.get('/logout', logoutUser);
+app.get('/products', function(req, res) {
+	res.render('products.html', {coffee:['Latte', 'Mocha', 'Esp']});
+});
 app.use( express.static('public') );
 app.use( showError );
 
