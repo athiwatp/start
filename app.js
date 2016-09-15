@@ -16,6 +16,7 @@ app.post('/register', registerNewUser);
 app.get('/login', (req, res) => res.render('login.html'));
 app.post('/login', loginUser);
 app.get('/profile', showProfile);
+app.get('/logout', logoutUser);
 app.use( express.static('public') );
 
 // install packages: npm install express ejs mongodb
@@ -89,17 +90,10 @@ function loginUser(req, res) {
 	req.on("end", () => {
 		// data -> email=mark@facebook.com&password=mark123
 		data = decodeURIComponent(data);
-		var a = data.split("&");
-		var u = { };
-		for (var i = 0; i < a.length; i++) {
-			var f = a[i].split("=");
-			if (f[0] == "email") {
-				u.email = f[1];
-			}
-			if (f[0] == "password") {
-				u.password = f[1];
-			}
-		}
+		var p = data.indexOf("&");
+		var u = { }
+		u.email = data.substring(6, p);
+		u.password = data.substring(p + 10, data.length);
 		u.password = crypto.createHmac('sha256', u.password).digest('hex');
 		mongo.MongoClient.connect("mongodb://127.0.0.1/start", (error, db) => {
 			db.collection("user").find(u).toArray((error, data) => {
@@ -120,4 +114,9 @@ function showProfile(req, res) {
 	} else {
 		res.render("profile.html");
 	}
+}
+
+function logoutUser(req, res) {
+	delete granted[req.session];
+	res.render("logout.html");
 }
