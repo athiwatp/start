@@ -107,6 +107,7 @@ function loginUser(req, res) {
 					res.redirect("/login?message=Invalid Password");
 				} else {
 					granted[req.session] = data[0];
+					res.redirect("/profile");
 				}
 			});
 		});
