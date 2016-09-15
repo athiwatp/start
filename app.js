@@ -13,6 +13,7 @@ app.get('/register', function(req, res) {
 });
 app.post('/register', registerNewUser);
 app.get('/login', (req, res) => res.render('login.html'));
+app.post('/login', loginUser);
 app.use( express.static('public') );
 
 // install packages: npm install express ejs mongodb
@@ -77,5 +78,35 @@ function registerNewUser(req, res) {
 				)
 			}
 		)
+	});
+}
+
+function loginUser(req, res) {
+	var data = "";
+	req.on("data", chunk => data += chunk );
+	req.on("end", () => {
+		// data -> email=mark@facebook.com&password=mark123
+		data = decodeURIComponent(data);
+		var a = data.split("&");
+		var u = { };
+		for (var i = 0; i < a.length; i++) {
+			var f = a[i].split("=");
+			if (f[0] == "email") {
+				u.email = f[1];
+			}
+			if (f[0] == "password") {
+				u.password = f[1];
+			}
+		}
+		u.password = crypto.createHmac('sha256', u.password).digest('hex');
+		mongo.MongoClient.connect("mongodb://127.0.0.1/start", (error, db) => {
+			db.collection("user").find(u).toArray((error, data) => {
+				if (data.length == 0) {
+					res.redirect("/login?message=Invalid Password");
+				} else {
+
+				}
+			});
+		});
 	});
 }
