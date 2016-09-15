@@ -113,7 +113,10 @@ function showProfile(req, res) {
 	if (granted[req.session] == null) {
 		res.redirect("/login");
 	} else {
-		res.render("profile.html");
+		var u = granted[req.session];
+		var c = ["Latte", "Mocha", "Espress"];
+		res.render("profile.html",
+			{user: u, coffee: c });
 	}
 }
 

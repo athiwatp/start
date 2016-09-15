@@ -7,7 +7,12 @@
 		<a class="btn btn-primary" href='/edit'>Edit</a>
 		<a class="btn btn-primary" href='/logout'>Log Out</a>
 	</div>
-
+	<h3>Hello <%= user.name %> </h3>
+	<ol>
+		<% for (var i = 0; i < coffee.length; i++) { %>
+		<li><%= coffee[i] %></li>
+		<% } %>
+	</ol>
 </div>
 
 <% include footer.html %>
