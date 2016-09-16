@@ -17,8 +17,8 @@ app.get('/login', (req, res) => res.render('login.html'));
 app.post('/login', loginUser);
 app.get('/profile', showProfile);
 app.get('/logout', logoutUser);
-app.get('/new', showNewPost );
-
+app.get('/new', showNewPost);
+app.get('/save', saveNewPost);
 app.get('/products', function(req, res) {
 	res.render('products.html', {coffee:['Latte', 'Mocha', 'Esp']});
 });
@@ -126,5 +126,20 @@ function showNewPost(req, res) {
 		res.redirect('/login');
 	} else {
 		res.render('new.html');
+	}
+}
+
+function saveNewPost(req, res) {
+	if (granted[req.session] == null) {
+		res.redirect('/login');
+	} else {
+		var data = {};
+		data.topic = req.query.topic;
+		data.detail = req.query.detail;
+		data.owner = granted[req.session]._id;
+		mongo.MongoClient.connect('mongodb://127.0.0.1/start',
+			(error, db) => db.collection('post').insert(data)
+		);
+		res.redirect('/profile');
 	}
 }
