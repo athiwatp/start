@@ -24,6 +24,20 @@ app.get('/save', saveNewPost);
 app.post('/save', upload.single('photo'), savePost);
 app.get('/list', showAll);
 app.get('/view/:id', showDetail);
+
+app.get('/total', calculate);
+function calculate(req, res) {
+	var result = req.query.price * 107 / 100;
+	res.send({total: result});
+}
+
+app.get('/area/:r', area);
+function area(req, res) {
+	var result = Math.PI * req.params.r * req.params.r;
+	res.send("The area is " + result);
+}
+
+
 app.use( express.static('public') );
 app.use( express.static('uploads') );
 app.use( showError );
