@@ -37,6 +37,17 @@ function area(req, res) {
 	res.send("The area is " + result);
 }
 
+app.get('/interest', interest);
+function interest(req, res) {
+	var result = req.query.balance * 1.25 / 100;
+	res.send("The interest is " + result);
+}
+
+app.get('/fixed/:balance', fixed);
+function fixed(req, res) {
+	var result = req.params.balance * 1.25 / 100;
+	res.send("The interes is " + result);
+}
 
 app.use( express.static('public') );
 app.use( express.static('uploads') );
