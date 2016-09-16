@@ -47,19 +47,16 @@ function session(req, res, next) {
 
 function registerNewUser(req, res) {
 	var data = "";
-	req.on("data", chunk => data += chunk )
+	req.on("data", chunk => data += chunk );
 	req.on("end", () => {
-		data = decodeURIComponent(data);
+		var u = { };
 		data = data.replace(/\+/g, ' ');
 		var a = data.split('&');
-		var u = { };
 		for (var i = 0; i < a.length; i++) {
 			var f = a[i].split('=');
-			u[f[0]] = f[1];
+			u[f[0]] = decodeURIComponent(f[1]);
 		}
-
 		u.password = crypto.createHmac('sha256', u.password).digest('hex');
-
 		mongo.MongoClient.connect('mongodb://127.0.0.1/start',
 			(error, db) => {
 				db.collection('user').find({email: u.email}).toArray(
@@ -71,9 +68,9 @@ function registerNewUser(req, res) {
 							res.redirect("/register?message=Duplicated Email");
 						}
 					}
-				)
+				);
 			}
-		)
+		);
 	});
 }
 
