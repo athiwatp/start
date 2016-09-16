@@ -6,6 +6,9 @@
 		padding: 10px;
 		border-radius: 5px;
 	}
+	img {
+		max-width: 100%;
+	}
 </style>
 
 <div class="container">
@@ -13,6 +16,9 @@
 		<div class='block'>
 			<h3><%= post[i].topic %></h3>
 			<p><%= post[i].detail %></p>
+			<% if (post[i].photo) { %>
+				<img src='<%= post[i].photo %>'>
+			<% } %>
 		</div>
 	<% } %>
 </div>
