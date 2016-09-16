@@ -19,6 +19,7 @@ app.get('/profile', showProfile);
 app.get('/logout', logoutUser);
 app.get('/new', showNewPost);
 app.get('/save', saveNewPost);
+app.get('/list', showAll);
 app.get('/products', function(req, res) {
 	res.render('products.html', {coffee:['Latte', 'Mocha', 'Esp']});
 });
@@ -137,9 +138,22 @@ function saveNewPost(req, res) {
 		data.topic = req.query.topic;
 		data.detail = req.query.detail;
 		data.owner = granted[req.session]._id;
+		data.time  = new Date();
 		mongo.MongoClient.connect('mongodb://127.0.0.1/start',
 			(error, db) => db.collection('post').insert(data)
 		);
 		res.redirect('/profile');
 	}
+}
+
+function showAll(req, res) {
+	mongo.MongoClient.connect('mongodb://127.0.0.1/start',
+		(error, db) => {
+			db.collection('post').find().toArray(
+				(error, data) => {
+					res.render('list.html', {post: data});
+				}
+			);	
+		}
+	);
 }
