@@ -17,6 +17,8 @@ app.get('/login', (req, res) => res.render('login.html'));
 app.post('/login', loginUser);
 app.get('/profile', showProfile);
 app.get('/logout', logoutUser);
+app.get('/new', showNewPost );
+
 app.get('/products', function(req, res) {
 	res.render('products.html', {coffee:['Latte', 'Mocha', 'Esp']});
 });
@@ -117,4 +119,12 @@ function logoutUser(req, res) {
 
 function showError(req, res, next) {
 	res.status(404).render('error.html');
+}
+
+function showNewPost(req, res) {
+	if (granted[req.session] == null) {
+		res.redirect('/login');
+	} else {
+		res.render('new.html');
+	}
 }
