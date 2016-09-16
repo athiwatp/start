@@ -49,6 +49,12 @@ function fixed(req, res) {
 	res.send("The interes is " + result);
 }
 
+var coffee = [
+	{name:'Latte', price:80},
+	{name:'Mocha', price:90},
+	{name:'Espresso', price:70}
+]
+
 app.use( express.static('public') );
 app.use( express.static('uploads') );
 app.use( showError );
