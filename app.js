@@ -27,6 +27,7 @@ app.get('/products', function(req, res) {
 	res.render('products.html', {coffee:['Latte', 'Mocha', 'Esp']});
 });
 app.use( express.static('public') );
+app.use( express.static('uploads') );
 app.use( showError );
 
 function session(req, res, next) {
@@ -137,8 +138,16 @@ function savePost(req, res) {
 	if (granted[req.session] == null) {
 		res.redirect('/login');
 	} else {
-		console.log(req.file);
-		res.redirect('/profile');
+		var data = { };
+		data.topic  = req.body.topic;
+		data.detail = req.body.detail;
+		data.owner  = granted[req.session]._id;
+		data.time   = new Date();
+		data.photo  = req.file.filename;
+		mongo.MongoClient.connect('mongodb://127.0.0.1/start',
+			(error, db) => db.collection('post').insert(data)
+		);
+		res.redirect('/list');
 	}
 }
 
