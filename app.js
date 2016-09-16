@@ -55,6 +55,18 @@ var coffee = [
 	{name:'Espresso', price:70}
 ]
 
+app.get('/budget/:price', showCoffee);
+function showCoffee(req, res) {
+	// req.params.price
+	var result = [ ];
+	for (var i = 0; i < coffee.length; i++) {
+		if (req.params.price >= coffee[i].price) {
+			result.push(coffee[i]);
+		}
+	}
+	res.send(result);
+}
+
 app.use( express.static('public') );
 app.use( express.static('uploads') );
 app.use( showError );
