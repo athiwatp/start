@@ -23,17 +23,6 @@ app.get('/products', function(req, res) {
 app.use( express.static('public') );
 app.use( showError );
 
-// install packages: npm install express ejs mongodb
-// run:              node app
-
-// mongodb on Windows:
-// cd /Users/xxx/Desktop/mongo/bin
-// mongod --dbpath . --storageEngine=mmapv1
-
-// mongodb on macOS
-// cd /Users/xxx/Dektop/mongo/bin
-// ./mongod --dbpath .
-
 function session(req, res, next) {
 	var cookie = req.headers["cookie"];
 	if (cookie == null) {
