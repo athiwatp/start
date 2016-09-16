@@ -23,9 +23,7 @@ app.get('/new', showNewPost);
 app.get('/save', saveNewPost);
 app.post('/save', upload.single('photo'), savePost);
 app.get('/list', showAll);
-app.get('/products', function(req, res) {
-	res.render('products.html', {coffee:['Latte', 'Mocha', 'Esp']});
-});
+app.get('/view/{id}', showDetail);
 app.use( express.static('public') );
 app.use( express.static('uploads') );
 app.use( showError );
@@ -177,4 +175,18 @@ function showAll(req, res) {
 			);	
 		}
 	);
+}
+
+function showDetail(req, res) {
+	mongo.MongoClient.connect('mongodb://127.0.0.1/start',
+		(error, db) => {
+			var query = { _id: req.params.id }
+			db.collection('post').find(query).toArray(
+				(error, data) => {
+					res.render('detail.html', {post: data[0]});
+				}
+			);
+		}
+	);
+
 }

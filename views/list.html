@@ -14,7 +14,11 @@
 <div class="container">
 	<% for (var i = 0; i < post.length; i++) { %>
 		<div class='block'>
-			<h3><%= post[i].topic %></h3>
+			<h3>
+				<a href='/view/<%= post[i]._id %>'>
+					<%= post[i].topic %>
+				</a>
+			</h3>
 			<p><%= post[i].detail %></p>
 			<% if (post[i].photo) { %>
 				<img src='<%= post[i].photo %>'>
