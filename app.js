@@ -78,12 +78,13 @@ function loginUser(req, res) {
 	var data = "";
 	req.on("data", chunk => data += chunk );
 	req.on("end", () => {
-		// data -> email=mark@facebook.com&password=mark123
-		data = decodeURIComponent(data);
-		var p = data.indexOf("&");
-		var u = { }
-		u.email = data.substring(6, p);
-		u.password = data.substring(p + 10, data.length);
+		var u = { };
+		data = data.replace(/\+/g, ' ');
+		var a = data.split('&');
+		for (var i = 0; i < a.length; i++) {
+			var f = a[i].split('=');
+			u[f[0]] = decodeURIComponent(f[1]);
+		}
 		u.password = crypto.createHmac('sha256', u.password).digest('hex');
 		mongo.MongoClient.connect("mongodb://127.0.0.1/start", (error, db) => {
 			db.collection("user").find(u).toArray((error, data) => {
