@@ -6,7 +6,8 @@
 </style>
 <div class='container'>
 	<h1>New Topic</h1>
-	<form action='/save'>
+	<form action='/save' method='post'
+		enctype="multipart/form-data">
 		<input name='topic'
 			placeholder='Topic'
 			class='form-control' 
@@ -15,6 +16,7 @@
 			placeholder='Detail'
 			class='form-control'
 		></textarea>
+		<input type='file' name='photo' >
 		<button class='btn btn-primary'
 			type='submit'>Post</button>
 	</form>

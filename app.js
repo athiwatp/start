@@ -3,6 +3,8 @@ var app = express();
 var ejs = require('ejs');
 var mongo = require('mongodb');
 var crypto = require('crypto');
+var multer = require('multer');
+var upload = multer({dest: 'uploads' });
 var granted = [ ];
 
 app.listen(2000);
@@ -19,6 +21,7 @@ app.get('/profile', showProfile);
 app.get('/logout', logoutUser);
 app.get('/new', showNewPost);
 app.get('/save', saveNewPost);
+app.post('/save', upload.single('photo'), savePost);
 app.get('/list', showAll);
 app.get('/products', function(req, res) {
 	res.render('products.html', {coffee:['Latte', 'Mocha', 'Esp']});
@@ -127,6 +130,15 @@ function showNewPost(req, res) {
 		res.redirect('/login');
 	} else {
 		res.render('new.html');
+	}
+}
+
+function savePost(req, res) {
+	if (granted[req.session] == null) {
+		res.redirect('/login');
+	} else {
+		console.log(req.file);
+		res.redirect('/profile');
 	}
 }
 
