@@ -14,8 +14,10 @@ var granted = [ ];
 // app.listen(2000);
 io.listen(app.listen(2000));
 
-io.on("connection", user => { 
-	console.log(user);
+io.on("connection", client => { 
+	client.on("message", m => {
+		console.log(m);
+	});
 });
 
 app.engine('html', ejs.renderFile);

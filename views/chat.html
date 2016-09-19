@@ -1,9 +1,38 @@
 <% include header.html %>
 
+<style>
+	#chat-history {
+		min-height: 100px;
+		background: #eee;
+		margin-top: 10px;
+		border-radius: 4px;
+	}
+	input {
+		margin-top: 10px;
+		margin-bottom: 10px;
+	}
+</style>
+
+<div class="container">
+	<div id="chat-history">
+
+	</div>
+	<input id="message"
+		class="form-control"
+		autofocus
+		placeholder="Message">
+	<button onclick="send()"
+		class="btn btn-primary"
+	>Send</button>
+</div>
+
 <script src="/socket.io/socket.io.js"></script>
 <script>
 var socket = io.connect("/");
 
+function send() {
+	
+}
 </script>
 
 
