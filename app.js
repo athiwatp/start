@@ -16,7 +16,8 @@ io.listen(app.listen(2000));
 
 io.on("connection", client => { 
 	client.on("message", m => {
-		console.log(m);
+		// console.log(m);
+		io.send(m);
 	});
 });
 
