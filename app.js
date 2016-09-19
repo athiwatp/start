@@ -15,9 +15,10 @@ var granted = [ ];
 io.listen(app.listen(2000));
 
 io.on("connection", client => { 
-	client.on("message", m => {
-		// console.log(m);
-		io.send(m);
+	client.on("message", o => {
+		if (o.action == 'text') {
+			io.send(o);
+		}
 	});
 });
 
@@ -251,6 +252,7 @@ function showChat(req, res) {
 	if (granted[req.session] == null) {
 		res.redirect('/login');
 	} else {
-		res.render('chat.html');
+		res.render('chat.html', 
+			{ user: granted[req.session] } );
 	}
 }

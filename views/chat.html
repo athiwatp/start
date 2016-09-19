@@ -31,12 +31,20 @@
 var socket = io.connect("/");
 socket.on("message", showMessage);
 
-function showMessage(m) {
-	$('#chat-history').append(m + "<br>");
+function showMessage(o) {
+	var message = "";
+	message += "<b>" + o.user + "</b> ";
+	message += o.data + "<br>";
+	$('#chat-history').append(message);
 }
 
 function send() {
-	socket.send( $('#message').val() );
+	var o = {}
+	o.action = 'text';
+	o.data = $('#message').val();
+	o.user = '<%= user.name %>';
+	o.email = '<%= user.email %>';
+	socket.send(o);
 	$('#message').val("");
 }
 </script>
