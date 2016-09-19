@@ -21,10 +21,15 @@ io.on("connection", client => {
 		} else if (o.action == 'join') {
 			io.send({action:'text', user:'Server',
 				data: o.user + " just joined."});
+			client.user = o.user;
 		}
 	});
 	client.on("disconnect", () => {
-
+		if (client.user) {
+			var m = {action: 'text', user:'Server',
+				data: client.user + " just left."};
+			io.send(m);
+		}
 	});
 });
 
