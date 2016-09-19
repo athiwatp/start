@@ -14,11 +14,17 @@ var granted = [ ];
 // app.listen(2000);
 io.listen(app.listen(2000));
 
-io.on("connection", client => { 
+io.on("connection", client => {
 	client.on("message", o => {
 		if (o.action == 'text') {
 			io.send(o);
+		} else if (o.action == 'join') {
+			io.send({action:'text', user:'Server',
+				data: o.user + " just joined."});
 		}
+	});
+	client.on("disconnect", () => {
+
 	});
 });
 

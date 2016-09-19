@@ -31,6 +31,8 @@
 <script src="/socket.io/socket.io.js"></script>
 <script>
 var socket = io.connect("/");
+socket.send({action:'join', user:'<%= user.name %>'});
+
 socket.on("message", showMessage);
 
 function showMessage(o) {
