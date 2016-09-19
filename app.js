@@ -1,13 +1,18 @@
 var express = require('express');
-var app = express();
-var ejs = require('ejs');
-var mongo = require('mongodb');
-var crypto = require('crypto');
-var multer = require('multer');
-var upload = multer({dest: 'uploads' });
+var app     = express();
+
+var socket  = require('socket.io');
+var io      = socket();
+
+var ejs     = require('ejs');
+var mongo   = require('mongodb');
+var crypto  = require('crypto');
+var multer  = require('multer');
+var upload  = multer({dest: 'uploads' });
 var granted = [ ];
 
-app.listen(2000);
+// app.listen(2000);
+io.listen(app.listen(2000));
 app.engine('html', ejs.renderFile);
 app.use(session);
 app.get('/', (req, res) => res.render('index.html') );
