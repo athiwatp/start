@@ -15,8 +15,8 @@ var granted = [ ];
 io.listen(app.listen(2000));
 
 io.on("connection", user => { 
-
-})
+	console.log(user);
+});
 
 app.engine('html', ejs.renderFile);
 app.use(session);
@@ -34,7 +34,7 @@ app.get('/save', saveNewPost);
 app.post('/save', upload.single('photo'), savePost);
 app.get('/list', showAll);
 app.get('/view/:id', showDetail);
-app.get('/chat', (req, res) => res.render('chat.html'))
+app.get('/chat', showChat);
 
 app.get('/total', calculate);
 function calculate(req, res) {
@@ -242,4 +242,12 @@ function showDetail(req, res) {
 			);
 		}
 	);
+}
+
+function showChat(req, res) {
+	if (granted[req.session] == null) {
+		res.redirect('/login');
+	} else {
+		res.render('chat.html');
+	}
 }
