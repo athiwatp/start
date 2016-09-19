@@ -13,6 +13,11 @@ var granted = [ ];
 
 // app.listen(2000);
 io.listen(app.listen(2000));
+
+io.on("connection", user => { 
+
+})
+
 app.engine('html', ejs.renderFile);
 app.use(session);
 app.get('/', (req, res) => res.render('index.html') );
@@ -29,6 +34,7 @@ app.get('/save', saveNewPost);
 app.post('/save', upload.single('photo'), savePost);
 app.get('/list', showAll);
 app.get('/view/:id', showDetail);
+app.get('/chat', (req, res) => res.render('chat.html'))
 
 app.get('/total', calculate);
 function calculate(req, res) {
