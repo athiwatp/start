@@ -22,7 +22,7 @@ io.on("connection", client => {
 		} else if (o.action == 'join') {
 			io.send({action:'text', user:'Server',
 				data: granted[o.session].name + " just joined."});
-			client.user = o.user;
+			client.user = granted[o.session].name;
 		}
 	});
 	client.on("disconnect", () => {
