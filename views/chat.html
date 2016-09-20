@@ -50,7 +50,7 @@ function showMessage(o) {
 }
 
 function send() {
-	var o = {}
+	var o = {};
 	o.action = 'text';
 	o.data = $('#message').val();
 	o.session = session;
@@ -59,7 +59,29 @@ function send() {
 }
 
 function shareLocation() {
+	navigator.geolocation.getCurrentPosition(
+		locationSuccess, locationFailed, {enableHighAccuracy:true})
 }
+
+function locationSuccess(position) {
+	var lat = position.coords.latitude;
+	var lon = position.coords.longitude;
+	var link = "http://wikimapia.org/#lat=" + lat + 
+		"&lon=" + lon + "&z=15&m=w";
+	var message = "<a target='_blank' href='" + link + 
+		"'>Location</a>";
+	var o = {
+		action: 'text',
+		data: message,
+		session: session
+	};
+	socket.send(o);
+}
+
+function locationFailed(error) {
+	console.log(error);
+}
+
 </script>
 
 
