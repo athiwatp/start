@@ -31,7 +31,12 @@
 <script src="/socket.io/socket.io.js"></script>
 <script>
 var socket = io.connect("/");
-socket.send({action:'join', user:'<%= user.name %>'});
+var temp = document.cookie + ';';
+var position = temp.indexOf('session=');
+var semicolon = temp.indexOf(';', position);
+var session = temp.substring(position + 8, semicolon);
+
+socket.send({action:'join', session: session});
 
 socket.on("message", showMessage);
 

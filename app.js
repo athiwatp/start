@@ -20,7 +20,7 @@ io.on("connection", client => {
 			io.send(o);
 		} else if (o.action == 'join') {
 			io.send({action:'text', user:'Server',
-				data: o.user + " just joined."});
+				data: granted[o.session].name + " just joined."});
 			client.user = o.user;
 		}
 	});
