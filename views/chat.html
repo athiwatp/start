@@ -42,6 +42,28 @@ socket.send({action:'join', session: session});
 
 socket.on("message", showMessage);
 
+var engine = null;
+if (webkitSpeechRecognition) {
+	engine = new webkitSpeechRecognition();
+	engine.lang = 'th';
+	engine.onresult = speechResult;
+	$('#message').keydown( e => {
+		if (e.which == 16) engine.start();
+	});
+	$('#message').keyup( e => {
+		if (e.which == 16) engine.stop();
+	});
+}
+
+function speechResult(e) {
+	var o = {
+		action: 'text',
+		session: session,
+		data: e.results[0][0].transcript
+	}
+	socket.send(o);
+}
+
 function showMessage(o) {
 	var message = "";
 	message += "<b>" + o.user + "</b> ";
