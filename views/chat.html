@@ -51,8 +51,7 @@ function send() {
 	var o = {}
 	o.action = 'text';
 	o.data = $('#message').val();
-	o.user = '<%= user.name %>';
-	o.email = '<%= user.email %>';
+	o.session = session;
 	socket.send(o);
 	$('#message').val("");
 }

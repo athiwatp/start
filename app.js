@@ -17,6 +17,7 @@ io.listen(app.listen(2000));
 io.on("connection", client => {
 	client.on("message", o => {
 		if (o.action == 'text') {
+			o.user = granted[o.session].name;
 			io.send(o);
 		} else if (o.action == 'join') {
 			io.send({action:'text', user:'Server',
