@@ -25,6 +25,8 @@
 		<button type="submit" class="btn btn-primary">
 			Send
 		</button>
+		<a href="javascript:shareLocation()"
+			class='btn btn-success'>Share Location</a>
 	</form>
 </div>
 <script src="/jquery.js"></script>
@@ -54,6 +56,9 @@ function send() {
 	o.session = session;
 	socket.send(o);
 	$('#message').val("");
+}
+
+function shareLocation() {
 }
 </script>
 
