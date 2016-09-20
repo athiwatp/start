@@ -27,6 +27,8 @@
 		</button>
 		<a href="javascript:shareLocation()"
 			class='btn btn-success'>Share Location</a>
+		<a href="javascript:clear()"
+			class="btn btn-danger">Clear</a>
 	</form>
 </div>
 <script src="/jquery.js"></script>
@@ -102,6 +104,10 @@ function locationSuccess(position) {
 
 function locationFailed(error) {
 	console.log(error);
+}
+
+function clear() {
+	$('#chat-history').html("");
 }
 
 </script>
